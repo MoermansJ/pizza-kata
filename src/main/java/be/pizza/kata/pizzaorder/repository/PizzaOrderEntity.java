@@ -1,5 +1,5 @@
 
-package be.pizza.kata;
+package be.pizza.kata.pizzaorder;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-public class PizzaOrder {
+public class PizzaOrderEntity {
 
     @Id
     @GeneratedValue
@@ -22,7 +22,12 @@ public class PizzaOrder {
     @Column(name = "size", nullable = false)
     private String size;
 
-    protected PizzaOrder() {
+    protected PizzaOrderEntity() {
+    }
+
+    public PizzaOrderEntity(PizzaOrder domain) {
+        this.pizza = domain.getPizza();
+        this.size = domain.getSize();
     }
 
     public UUID getId() {
@@ -51,7 +56,7 @@ public class PizzaOrder {
 
     @Override
     public String toString() {
-        return "PizzaOrder{" +
+        return "PizzaOrderEntity{" +
                 "id=" + id +
                 ", pizza='" + pizza + '\'' +
                 ", size='" + size + '\'' +
@@ -60,7 +65,7 @@ public class PizzaOrder {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof PizzaOrder that)) return false;
+        if (!(o instanceof PizzaOrderEntity that)) return false;
         return Objects.equals(id, that.id) && Objects.equals(pizza, that.pizza) && Objects.equals(size, that.size);
     }
 
