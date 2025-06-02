@@ -14,6 +14,18 @@ To help us understand your approach and thought process, please follow these gui
 
 Good luck and enjoy the kata! 🍀
 
+## ✅ Reminder: your application should still work
+
+After refactoring and extending the code, your application should still be functional.  
+We will run a small script to verify that everything works as expected.
+
+Please make sure:
+
+- The project still builds successfully
+- The `/order` endpoint still behaves correctly
+- Any new features (like toppings) are properly integrated
+
+Tip: test everything before you submit. A clean and modular solution is great — but working code is even better 😉
 ## Goal
 
 You are given a working but poorly structured Spring Boot application that handles pizza orders. Your task is to:
@@ -40,9 +52,10 @@ You are given a working but poorly structured Spring Boot application that handl
   "pizza": "MARGHERITA",
   "size": "MEDIUM"
 }
-```
+````
 
 Response:
+
 ```json
 {
   "orderId": "123e4567-e89b-12d3-a456-426614174000",
@@ -53,18 +66,18 @@ Response:
 ## Phase 1 – Refactoring
 
 Refactor to:
-- Extract logic from controllers
-- Use constructor injection
-- Improve naming
-- Add unit and integration tests
-- Introduce domain models
+
+* Extract logic from controllers
+* Use constructor injection
+* Improve naming
+* Add unit and integration tests
+* Introduce domain models
 
 ## Phase 2 – Enhancement
 
 Support toppings like `EXTRA_CHEESE` and `OLIVES`, each adding 2 minutes to the estimated time.
 
-Enjoy and good luck!
-
+> Enjoy and good luck!
 
 ## 🐳 Docker Support
 
