@@ -1,7 +1,9 @@
 
 package be.pizza.kata.pizzaorder.repository;
 
+import be.pizza.kata.pizzaorder.domain.Pizza;
 import be.pizza.kata.pizzaorder.domain.PizzaOrder;
+import be.pizza.kata.pizzaorder.domain.PizzaSize;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -17,14 +19,14 @@ public class PizzaOrderEntity {
     private UUID id;
 
     @Column(name = "pizza", nullable = false)
-    private String pizza;
+    private Pizza pizza;
     @Column(name = "size", nullable = false)
-    private String size;
+    private PizzaSize size;
 
     public PizzaOrderEntity() {
     }
 
-    public PizzaOrderEntity(String pizza, String size) {
+    public PizzaOrderEntity(Pizza pizza, PizzaSize size) {
         this.pizza = pizza;
         this.size = size;
     }
@@ -37,19 +39,19 @@ public class PizzaOrderEntity {
         this.id = id;
     }
 
-    public String getPizza() {
+    public Pizza getPizza() {
         return pizza;
     }
 
-    public void setPizza(String pizza) {
+    public void setPizza(Pizza pizza) {
         this.pizza = pizza;
     }
 
-    public String getSize() {
+    public PizzaSize getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(PizzaSize size) {
         this.size = size;
     }
 

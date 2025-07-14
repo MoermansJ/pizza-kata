@@ -1,6 +1,5 @@
 package be.pizza.kata.pizzaorder.domain;
 
-import be.pizza.kata.commons.notification.Validate;
 import be.pizza.kata.pizzaorder.controller.PizzaOrderSaveRequest;
 import be.pizza.kata.pizzaorder.controller.PizzaOrderSaveResponse;
 import be.pizza.kata.pizzaorder.exception.PizzaOrderException;
@@ -35,10 +34,7 @@ public class PizzaOrderService {
             throw new PizzaOrderException(message);
         }
 
-        var unsaved = new PizzaOrderEntity(
-                domain.getPizza().getValue(),
-                domain.getSize().getValue());
-
+        var unsaved = new PizzaOrderEntity(domain.getPizza(), domain.getSize());
         var saved = repository.save(unsaved);
 
         return new PizzaOrderSaveResponse(saved.getId(), ESTIMATED_TIME);
