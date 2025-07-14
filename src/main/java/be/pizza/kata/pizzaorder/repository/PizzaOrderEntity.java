@@ -1,15 +1,14 @@
 
-package be.pizza.kata.pizzaorder;
+package be.pizza.kata.pizzaorder.repository;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import be.pizza.kata.pizzaorder.domain.PizzaOrder;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
+@Table(name = "pizza_order")
 public class PizzaOrderEntity {
 
     @Id
@@ -22,12 +21,12 @@ public class PizzaOrderEntity {
     @Column(name = "size", nullable = false)
     private String size;
 
-    protected PizzaOrderEntity() {
+    public PizzaOrderEntity() {
     }
 
-    public PizzaOrderEntity(PizzaOrder domain) {
-        this.pizza = domain.getPizza();
-        this.size = domain.getSize();
+    public PizzaOrderEntity(String pizza, String size) {
+        this.pizza = pizza;
+        this.size = size;
     }
 
     public UUID getId() {
