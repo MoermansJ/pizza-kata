@@ -28,10 +28,10 @@ public class PizzaOrderSaveRequest implements Validate {
     public Notification validate() {
         var notification = new Notification();
 
-        if (pizza == null || pizza.isEmpty() || !Pizza.isValid(pizza)) {
+        if (pizza == null || pizza.isBlank() || !Pizza.isValid(pizza)) {
             notification.addError("Pizza cannot be " + pizza);
         }
-        if (size == null || size.isEmpty() || !PizzaSize.isValid(size)) {
+        if (size == null || size.isBlank() || !PizzaSize.isValid(size)) {
             notification.addError("Size cannot be " + size);
         }
 

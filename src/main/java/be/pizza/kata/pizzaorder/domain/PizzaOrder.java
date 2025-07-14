@@ -18,7 +18,6 @@ public class PizzaOrder implements Validate {
 
         this.pizza = Pizza.fromString(dto.getPizza());
         this.size = PizzaSize.fromString(dto.getSize());
-        this.validate();
     }
 
     public Pizza getPizza() {
