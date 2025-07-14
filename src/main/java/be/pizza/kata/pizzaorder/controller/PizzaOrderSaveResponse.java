@@ -3,11 +3,11 @@ package be.pizza.kata.pizzaorder.controller;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PizzaOrderCreateResponse {
+public class PizzaOrderSaveResponse {
     private final String orderId;
     private final String estimatedTime;
 
-    public PizzaOrderCreateResponse(UUID orderId, String estimatedTime) {
+    public PizzaOrderSaveResponse(UUID orderId, String estimatedTime) {
         this.orderId = orderId.toString();
         this.estimatedTime = estimatedTime;
     }
@@ -22,7 +22,7 @@ public class PizzaOrderCreateResponse {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof PizzaOrderCreateResponse that)) return false;
+        if (!(o instanceof PizzaOrderSaveResponse that)) return false;
         return Objects.equals(orderId, that.orderId) && Objects.equals(estimatedTime, that.estimatedTime);
     }
 
@@ -33,7 +33,7 @@ public class PizzaOrderCreateResponse {
 
     @Override
     public String toString() {
-        return "PizzaOrderCreateResponse{" +
+        return "PizzaOrderSaveResponse{" +
                 "orderId='" + orderId + '\'' +
                 ", estimatedTime='" + estimatedTime + '\'' +
                 '}';

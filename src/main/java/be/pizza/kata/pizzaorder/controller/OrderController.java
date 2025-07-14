@@ -1,9 +1,6 @@
-package be.pizza.kata;
+package be.pizza.kata.pizzaorder.controller;
 
-import be.pizza.kata.pizzaorder.PizzaOrderCreateRequest;
-import be.pizza.kata.pizzaorder.PizzaOrderCreateResponse;
-import be.pizza.kata.pizzaorder.PizzaOrderService;
-import be.pizza.kata.pizzaorder.exception.PizzaOrderException;
+import be.pizza.kata.pizzaorder.domain.PizzaOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,21 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/order")
 public class OrderController {
 
-    private final PizzaOrderService pizzaOrderService;
+    private final PizzaOrderService service;
 
-    public OrderController(PizzaOrderService pizzaOrderService) {
-        this.pizzaOrderService = pizzaOrderService;
+    public OrderController(PizzaOrderService service) {
+        this.service = service;
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PizzaOrderCreateResponse> createPizzaOrder(@RequestBody PizzaOrderCreateRequest dto) {
-        var pizzaOrderResponse = pizzaOrderService.create(dto);
+    public ResponseEntity<PizzaOrderSaveResponse> createPizzaOrder(@RequestBody PizzaOrderSaveRequest dto) {
+        var pizzaOrderResponse = service.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(pizzaOrderResponse);
     }
 
-    @ExceptionHandler(PizzaOrderException.class)
-    public ResponseEntity<String> handlePizzaOrderValidationException(PizzaOrderException ex) {
-        return ResponseEntity
-                .status(HttpStatus.UNPROCESSABLE_ENTITY)
-                .body(ex.getMessage());
-    }}
+}
