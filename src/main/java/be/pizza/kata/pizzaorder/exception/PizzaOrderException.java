@@ -1,8 +1,8 @@
 package be.pizza.kata.pizzaorder.exception;
 
-public class PizzaOrderValidationException extends RuntimeException {
+public class PizzaOrderException extends RuntimeException {
 
-    public PizzaOrderValidationException(String message) {
+    public PizzaOrderException(String message) {
         super(message);
     }
 }

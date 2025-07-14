@@ -1,8 +1,7 @@
-package be.pizza.kata.pizzaorder;
+package be.pizza.kata.pizzaorder.domain;
 
-import be.pizza.kata.pizzaorder.domain.PizzaOrderService;
 import be.pizza.kata.pizzaorder.exception.PizzaOrderException;
-import be.pizza.kata.pizzaorder.fixture.PizzaOrderCreateRequestFixture;
+import be.pizza.kata.pizzaorder.fixture.PizzaOrderSaveRequestFixture;
 import be.pizza.kata.pizzaorder.fixture.PizzaOrderExceptionFixture;
 import be.pizza.kata.pizzaorder.repository.PizzaOrderEntity;
 import be.pizza.kata.pizzaorder.repository.PizzaOrderRepository;
@@ -30,26 +29,28 @@ class PizzaOrderServiceTest {
     }
 
     @Test
-    void givenValidPizzaOrderCreateRequest_whenCreate_thenReturnsPizzaOrderSaveResponse() {
-        var request = PizzaOrderCreateRequestFixture.validRequest();
-        var mockPersistedPizzaOrder = new PizzaOrderEntity();
-        mockPersistedPizzaOrder.setId(UUID.fromString("00000000-0000-0000-0000-000000000010"));
+    void givenValidPizzaOrderSaveRequest_whenCreate_thenReturnsPizzaOrderSaveResponse() {
+        var request = PizzaOrderSaveRequestFixture.mediumMargheritaRequest();
+        var dummySaved = new PizzaOrderEntity();
+        dummySaved.setId(UUID.fromString("00000000-0000-0000-0000-000000000010"));
 
         Mockito.when(repository.save(Mockito.any(PizzaOrderEntity.class)))
-                .thenReturn(mockPersistedPizzaOrder);
+                .thenReturn(dummySaved);
 
         var actualResponse = pizzaOrderService.save(request);
         Assertions.assertNotNull(actualResponse);
-        Assertions.assertEquals(mockPersistedPizzaOrder.getId().toString(), actualResponse.getOrderId());
+        Assertions.assertEquals(dummySaved.getId().toString(), actualResponse.getOrderId());
     }
 
     @Test
-    void givenInvalidPizzaOrderCreateRequest_whenSave_thenThrowsPizzaOrderException() {
-        var invalidPizzaOrderCreateRequest = PizzaOrderCreateRequestFixture.invalidRequest();
-        var expectedMessage = PizzaOrderExceptionFixture.pizzaOrderMessageWithInvalidProperties();
+    void givenInvalidPizzaOrderSaveRequest_whenSave_thenThrowsPizzaOrderException() {
+        var invalidRequest = PizzaOrderSaveRequestFixture.blankPizzaAndBlankSizeRequest();
+        var expectedMessage = PizzaOrderExceptionFixture.blankPizzaAndBlankPizzaSizeMessage();
 
         var exception = Assertions.assertThrows(PizzaOrderException.class,
-                () -> pizzaOrderService.save(invalidPizzaOrderCreateRequest));
-        Assertions.assertEquals(exception.getMessage(), expectedMessage);
+                () -> pizzaOrderService.save(invalidRequest));
+        Assertions.assertEquals(expectedMessage, exception.getMessage());
     }
+
+
 }
