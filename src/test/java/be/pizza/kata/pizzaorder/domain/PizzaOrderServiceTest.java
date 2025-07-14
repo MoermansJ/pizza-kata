@@ -8,12 +8,17 @@ import be.pizza.kata.pizzaorder.repository.PizzaOrderRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.UUID;
 
+@ExtendWith(SpringExtension.class)
+@Import(PizzaOrderServiceTestConfig.class)
 class PizzaOrderServiceTest {
 
     @Autowired
@@ -21,12 +26,6 @@ class PizzaOrderServiceTest {
 
     @MockitoBean
     private PizzaOrderRepository repository;
-
-    @BeforeEach
-    void setUp() {
-        repository = Mockito.mock(PizzaOrderRepository.class);
-        this.pizzaOrderService = new PizzaOrderService(repository);
-    }
 
     @Test
     void givenValidPizzaOrderSaveRequest_whenCreate_thenReturnsPizzaOrderSaveResponse() {
