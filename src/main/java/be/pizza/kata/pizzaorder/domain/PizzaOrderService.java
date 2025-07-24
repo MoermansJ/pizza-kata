@@ -1,42 +1,30 @@
 package be.pizza.kata.pizzaorder.domain;
 
-import be.pizza.kata.pizzaorder.controller.PizzaOrderSaveRequest;
-import be.pizza.kata.pizzaorder.controller.PizzaOrderSaveResponse;
-import be.pizza.kata.pizzaorder.exception.PizzaOrderException;
+import be.pizza.kata.pizzaorder.controller.model.PizzaOrderRequest;
+import be.pizza.kata.pizzaorder.controller.model.PizzaOrderResponse;
+import be.pizza.kata.pizzaorder.domain.model.PizzaOrderFactory;
 import be.pizza.kata.pizzaorder.repository.PizzaOrderEntity;
 import be.pizza.kata.pizzaorder.repository.PizzaOrderRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PizzaOrderService {
 
-    private static final String ESTIMATED_TIME = "20 minutes";
-    private static final String DELIMITER = "," + System.lineSeparator();
+    @Value("${order.pizza.estimated-time}")
+    private static String ESTIMATED_TIME;
     private final PizzaOrderRepository repository;
 
     public PizzaOrderService(PizzaOrderRepository repository) {
         this.repository = repository;
     }
 
-    public PizzaOrderSaveResponse save(PizzaOrderSaveRequest dto) {
-        var dtoValidation = dto.validate();
-
-        if (dtoValidation.hasErrors()) {
-            var message = String.join(DELIMITER, dtoValidation.getErrors());
-            throw new PizzaOrderException(message);
-        }
-
-        var domain = new PizzaOrder(dto);
-        var domainValidation = domain.validate();
-
-        if (domainValidation.hasErrors()) {
-            var message = String.join(DELIMITER, domainValidation.getErrors());
-            throw new PizzaOrderException(message);
-        }
-
-        var unsaved = new PizzaOrderEntity(domain.getPizza(), domain.getSize());
+    public PizzaOrderResponse save(PizzaOrderRequest request) {
+        var order = PizzaOrderFactory.createFrom(request);
+        var unsaved = new PizzaOrderEntity(order.pizza(), order.size());
         var saved = repository.save(unsaved);
+        var savedId = saved.getId().toString();
 
-        return new PizzaOrderSaveResponse(saved.getId(), ESTIMATED_TIME);
+        return new PizzaOrderResponse(savedId, ESTIMATED_TIME);
     }
 }

@@ -1,7 +1,7 @@
 package be.pizza.kata.commons.notification;
 
 @FunctionalInterface
-public interface Validate {
+public interface Validatable {
     /**
      * Performs validation and returns a Notification containing any errors.
      *

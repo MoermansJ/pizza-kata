@@ -1,8 +1,8 @@
 package be.pizza.kata.pizzaorder.fixture;
 
-public class PizzaOrderSaveResponseFixture {
+public class PizzaOrderResponseFixture {
 
-    public static String responseWithTwentyMinutesEstimatedTimeAndOrderId() {
+    public static String twentyMinutesEstimatedTimeAndValidOrderId() {
         return """
         {
             "orderId" : "00000000-0000-0000-0000-000000000010",

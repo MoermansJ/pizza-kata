@@ -1,10 +1,12 @@
 package be.pizza.kata.pizzaorder.controller;
 
+import be.pizza.kata.pizzaorder.controller.model.PizzaOrderRequest;
+import be.pizza.kata.pizzaorder.controller.model.PizzaOrderResponse;
 import be.pizza.kata.pizzaorder.domain.PizzaOrderService;
 import be.pizza.kata.pizzaorder.exception.PizzaOrderException;
 import be.pizza.kata.pizzaorder.fixture.PizzaOrderExceptionFixture;
-import be.pizza.kata.pizzaorder.fixture.PizzaOrderSaveRequestFixture;
-import be.pizza.kata.pizzaorder.fixture.PizzaOrderSaveResponseFixture;
+import be.pizza.kata.pizzaorder.fixture.PizzaOrderRequestFixture;
+import be.pizza.kata.pizzaorder.fixture.PizzaOrderResponseFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -34,11 +35,12 @@ public class OrderControllerTest {
 
     @Test
     void givenValidRequest_whenSavingOrder_thenReturns201CreatedWithPizzaOrderResponse() throws Exception {
-        var request = PizzaOrderSaveRequestFixture.mediumMargheritaRequest();
-        var response = PizzaOrderSaveResponseFixture.responseWithTwentyMinutesEstimatedTimeAndOrderId();
+        var request = PizzaOrderRequestFixture.mediumMargheritaRequest();
+        var response = PizzaOrderResponseFixture.twentyMinutesEstimatedTimeAndValidOrderId();
+        var dummyOrderResponse = new PizzaOrderResponse("00000000-0000-0000-0000-000000000010", "20 minutes");
 
-        Mockito.when((pizzaOrderService.save(Mockito.any(PizzaOrderSaveRequest.class))))
-                .thenReturn(new PizzaOrderSaveResponse(UUID.fromString("00000000-0000-0000-0000-000000000010"), "20 minutes"));
+        Mockito.when((pizzaOrderService.save(Mockito.any(PizzaOrderRequest.class))))
+                .thenReturn(dummyOrderResponse);
 
         mockMvc.perform(post("/order")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -49,10 +51,10 @@ public class OrderControllerTest {
 
     @Test
     void givenInvalidRequest_whenSavingOrder_thenReturns422UnprocessableEntity() throws Exception {
-        var request = PizzaOrderSaveRequestFixture.blankPizzaAndBlankSizeRequest();
+        var request = PizzaOrderRequestFixture.blankPizzaAndBlankSizeRequest();
         var expectedMessage = PizzaOrderExceptionFixture.blankPizzaAndBlankPizzaSizeMessage();
 
-        Mockito.when(pizzaOrderService.save(Mockito.any(PizzaOrderSaveRequest.class)))
+        Mockito.when(pizzaOrderService.save(Mockito.any(PizzaOrderRequest.class)))
                 .thenThrow(new PizzaOrderException(expectedMessage));
 
         mockMvc.perform(post("/order")

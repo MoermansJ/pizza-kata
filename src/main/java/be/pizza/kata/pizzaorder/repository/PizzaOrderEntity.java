@@ -1,9 +1,8 @@
 
 package be.pizza.kata.pizzaorder.repository;
 
-import be.pizza.kata.pizzaorder.domain.Pizza;
-import be.pizza.kata.pizzaorder.domain.PizzaOrder;
-import be.pizza.kata.pizzaorder.domain.PizzaSize;
+import be.pizza.kata.pizzaorder.domain.model.Pizza;
+import be.pizza.kata.pizzaorder.domain.model.PizzaSize;
 import jakarta.persistence.*;
 
 import java.util.Objects;

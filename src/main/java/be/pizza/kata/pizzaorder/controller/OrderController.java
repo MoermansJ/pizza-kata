@@ -1,5 +1,7 @@
 package be.pizza.kata.pizzaorder.controller;
 
+import be.pizza.kata.pizzaorder.controller.model.PizzaOrderRequest;
+import be.pizza.kata.pizzaorder.controller.model.PizzaOrderResponse;
 import be.pizza.kata.pizzaorder.domain.PizzaOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,9 +19,9 @@ public class OrderController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PizzaOrderSaveResponse> createPizzaOrder(@RequestBody PizzaOrderSaveRequest dto) {
-        var pizzaOrderResponse = service.save(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pizzaOrderResponse);
+    public ResponseEntity<PizzaOrderResponse> createPizzaOrder(@RequestBody PizzaOrderRequest request) {
+        var response = service.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }
