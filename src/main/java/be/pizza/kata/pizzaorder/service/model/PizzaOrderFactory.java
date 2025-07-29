@@ -1,4 +1,4 @@
-package be.pizza.kata.pizzaorder.domain.model;
+package be.pizza.kata.pizzaorder.service.model;
 
 import be.pizza.kata.pizzaorder.controller.model.PizzaOrderRequest;
 import be.pizza.kata.pizzaorder.exception.PizzaOrderException;
