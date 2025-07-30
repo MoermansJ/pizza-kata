@@ -1,10 +1,10 @@
-package be.pizza.kata.pizzaorder.domain;
+package be.pizza.kata.pizzaorder.usecase;
 
-import be.pizza.kata.pizzaorder.domain.model.PizzaOrderFactory;
+import be.pizza.kata.pizzaorder.domain.PizzaOrderFactory;
 import be.pizza.kata.pizzaorder.exception.PizzaOrderException;
 import be.pizza.kata.pizzaorder.fixture.PizzaOrderRequestFixture;
 import be.pizza.kata.pizzaorder.fixture.PizzaOrderExceptionFixture;
-import be.pizza.kata.pizzaorder.repository.PizzaOrderEntity;
+import be.pizza.kata.pizzaorder.repository.model.PizzaOrderEntity;
 import be.pizza.kata.pizzaorder.repository.PizzaOrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,10 +23,10 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @Import(PizzaOrderServiceTestConfig.class)
-class PizzaOrderServiceTest {
+class OrderPizzaUseCaseTest {
 
     @Autowired
-    private PizzaOrderService service;
+    private OrderPizzaUseCase service;
 
     @MockitoBean
     private PizzaOrderRepository repository;
@@ -39,7 +39,7 @@ class PizzaOrderServiceTest {
 
         when(repository.save(any(PizzaOrderEntity.class))).thenReturn(dummySaved);
 
-        var response = service.save(request);
+        var response = service.execute(request);
         assertNotNull(response);
         assertEquals(dummySaved.getId().toString(), response.orderId());
     }
