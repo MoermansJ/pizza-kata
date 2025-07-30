@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@Import(PizzaOrderServiceTestConfig.class)
+@Import(OrderPizzaUseCaseTestConfig.class)
 class OrderPizzaUseCaseTest {
 
     @Autowired

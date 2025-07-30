@@ -1,4 +1,4 @@
-package be.pizza.kata.pizzaorder.domain;
+package be.pizza.kata.pizzaorder.usecase;
 
 import be.pizza.kata.pizzaorder.repository.PizzaOrderRepository;
 import org.mockito.Mockito;
@@ -6,11 +6,11 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @TestConfiguration
-public class PizzaOrderServiceTestConfig {
+public class OrderPizzaUseCaseTestConfig {
 
     @Bean
-    public PizzaOrderService pizzaOrderService(PizzaOrderRepository pizzaOrderRepository) {
-        return new PizzaOrderService(pizzaOrderRepository);
+    public OrderPizzaUseCase orderPizzaUseCase(PizzaOrderRepository pizzaOrderRepository) {
+        return new OrderPizzaUseCase(pizzaOrderRepository, "20 minutes");
     }
 
     @Bean
