@@ -6,19 +6,22 @@ import java.util.List;
 import java.util.Objects;
 
 public final class Notification {
-    private final List<String> errors;
+    // kijjken naar JTires , werk aan de winkel
+    private final List<String> errors = new ArrayList<>();
 
     public Notification() {
-        this.errors = new ArrayList<>();
     }
 
     public Notification(List<String> initialErrors) {
-        this.errors = new ArrayList<>(Objects.requireNonNull(initialErrors, "Initial errors cannot be null"));
+        if ( initialErrors.isEmpty() ) {
+
+        }
+        this.errors.addAll(initialErrors);
     }
 
     public void addError(String message) {
         if (message == null || message.isBlank()) {
-            throw new IllegalArgumentException("Error message cannot be null or blank");
+            throw new IllegalArgumentException("Error message cannot be null or blank"); // Illegalargument exception = crash the program?
         }
         errors.add(message);
     }

@@ -1,8 +1,9 @@
 
-package be.pizza.kata.pizzaorder.repository;
+package be.pizza.kata.pizzaorder.usecase.repository;
 
-import be.pizza.kata.pizzaorder.service.model.Pizza;
-import be.pizza.kata.pizzaorder.service.model.PizzaSize;
+import be.pizza.kata.pizzaorder.domain.Pizza;
+import be.pizza.kata.pizzaorder.domain.PizzaOrder;
+import be.pizza.kata.pizzaorder.domain.PizzaSize;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -22,12 +23,12 @@ public class PizzaOrderEntity {
     @Column(name = "size", nullable = false)
     private PizzaSize size;
 
-    public PizzaOrderEntity() {
+    protected PizzaOrderEntity() {
     }
 
-    public PizzaOrderEntity(Pizza pizza, PizzaSize size) {
-        this.pizza = pizza;
-        this.size = size;
+    public PizzaOrderEntity(PizzaOrder order) {
+        this.pizza = order.getPizza();
+        this.size = order.getSize();
     }
 
     public UUID getId() {
@@ -72,6 +73,39 @@ public class PizzaOrderEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, pizza, size);
+    }
+
+    public static PizzaOrderEntity.Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private UUID id;
+        private Pizza pizza;
+        private PizzaSize size;
+
+        public Builder id(UUID id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder pizza(Pizza pizza) {
+            this.pizza = pizza;
+            return this;
+        }
+
+        public Builder size(PizzaSize size) {
+            this.size = size;
+            return this;
+        }
+
+        public PizzaOrderEntity build() {
+            PizzaOrderEntity entity = new PizzaOrderEntity();
+            entity.setId(id);
+            entity.setPizza(pizza);
+            entity.setSize(size);
+            return entity;
+        }
     }
 
 }
