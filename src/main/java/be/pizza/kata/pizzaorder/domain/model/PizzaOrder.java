@@ -1,7 +1,7 @@
-package be.pizza.kata.pizzaorder.domain;
+package be.pizza.kata.pizzaorder.domain.model;
 
 
-import be.pizza.kata.commons.notification.Validatable;
+import be.pizza.kata.pizzaorder.domain.validation.Validatable;
 import be.pizza.kata.pizzaorder.adapter.controller.PizzaOrderRequest;
 import be.pizza.kata.pizzaorder.domain.validation.Notification;
 import be.pizza.kata.pizzaorder.exception.PizzaOrderException;

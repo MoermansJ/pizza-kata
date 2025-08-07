@@ -1,4 +1,4 @@
-package be.pizza.kata.commons.notification;
+package be.pizza.kata.pizzaorder.domain.validation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,23 +6,22 @@ import java.util.List;
 import java.util.Objects;
 
 public final class Notification {
-    // kijjken naar JTires , werk aan de winkel
     private final List<String> errors = new ArrayList<>();
 
-    public Notification() {
+    private Notification() {
     }
 
-    public Notification(List<String> initialErrors) {
-        if ( initialErrors.isEmpty() ) {
+    public static Notification empty() {
+        return new Notification();
+    }
 
-        }
-        this.errors.addAll(initialErrors);
+    public static Notification of(List<String> initialErrors) {
+        var notification = new Notification();
+        initialErrors.forEach(notification::addError);
+        return notification;
     }
 
     public void addError(String message) {
-        if (message == null || message.isBlank()) {
-            throw new IllegalArgumentException("Error message cannot be null or blank"); // Illegalargument exception = crash the program?
-        }
         errors.add(message);
     }
 

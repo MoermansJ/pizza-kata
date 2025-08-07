@@ -1,12 +1,11 @@
 package be.pizza.kata.pizzaorder.fixture;
 
+import be.pizza.kata.pizzaorder.usecase.PizzaOrderResponse;
+
 public class PizzaOrderResponseFixture {
 
-    public static String twentyMinutesEstimatedTimeAndValidOrderId() {
-        return """
-        {
-            "orderId" : "00000000-0000-0000-0000-000000000010",
-            "estimatedTime" : "20 minutes"
-        }""";
+    public static PizzaOrderResponse twentyMinutesEstimatedTimeAndValidOrderId() {
+        var entity = PizzaOrderEntityFixture.stubPersistedMediumMargherita();
+        return new PizzaOrderResponse(entity, "20 minutes");
     }
 }

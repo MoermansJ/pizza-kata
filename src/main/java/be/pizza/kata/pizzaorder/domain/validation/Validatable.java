@@ -1,6 +1,4 @@
-package be.pizza.kata.commons.notification;
-
-import be.pizza.kata.pizzaorder.domain.validation.Notification;
+package be.pizza.kata.pizzaorder.domain.validation;
 
 public interface Validatable {
     Notification validate();

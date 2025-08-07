@@ -1,11 +1,9 @@
 package be.pizza.kata.pizzaorder.usecase;
 
-import be.pizza.kata.pizzaorder.domain.PizzaOrderFactory;
-import be.pizza.kata.pizzaorder.exception.PizzaOrderException;
 import be.pizza.kata.pizzaorder.fixture.PizzaOrderRequestFixture;
-import be.pizza.kata.pizzaorder.fixture.PizzaOrderExceptionFixture;
-import be.pizza.kata.pizzaorder.repository.model.PizzaOrderEntity;
-import be.pizza.kata.pizzaorder.repository.PizzaOrderRepository;
+import be.pizza.kata.pizzaorder.fixture.PizzaOrderValidationErrorFixture;
+import be.pizza.kata.pizzaorder.usecase.repository.PizzaOrderEntity;
+import be.pizza.kata.pizzaorder.usecase.repository.PizzaOrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,42 +13,47 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@Import(OrderPizzaUseCaseTestConfig.class)
-class OrderPizzaUseCaseTest {
+@Import(OrderPizzaUsecaseTestConfig.class)
+class OrderPizzaUsecaseTest {
 
     @Autowired
-    private OrderPizzaUseCase service;
+    private OrderPizzaUsecase usecase;
 
     @MockitoBean
     private PizzaOrderRepository repository;
 
     @Test
-    void givenValidPizzaOrderRequest_whenCreate_thenReturnsPizzaOrderResponse() {
+    void givenValidPizzaOrderRequest_whenOrderingPizza_thenReturnsResultWithEmptyNotification() {
         var request = PizzaOrderRequestFixture.mediumMargheritaRequest();
-        var dummySaved = new PizzaOrderEntity();
-        dummySaved.setId(UUID.fromString("00000000-0000-0000-0000-000000000010"));
+        var dummyOrderId = UUID.fromString("00000000-0000-0000-0000-000000000010");
+        var dummySaved = PizzaOrderEntity.builder()
+                .id(dummyOrderId)
+                .build();
 
         when(repository.save(any(PizzaOrderEntity.class))).thenReturn(dummySaved);
 
-        var response = service.execute(request);
-        assertNotNull(response);
-        assertEquals(dummySaved.getId().toString(), response.orderId());
+        var result = usecase.execute(request);
+
+        assertThat(result.getNotification().hasErrors()).isFalse();
+        assertThat(result.getValue()).isNotNull();
+        assertThat(result.getValue().getOrderId()).isEqualTo(dummyOrderId);
+        assertThat(result.getValue().getEstimatedTime()).isEqualTo("20 minutes");
     }
 
     @Test
-    void givenInvalidPizzaOrderRequest_whenSave_thenThrowsPizzaOrderException() {
+    void givenInvalidPizzaOrderRequest_whenOrderingPizza_thenReturnsFailedResultWithNotification() {
         var invalidRequest = PizzaOrderRequestFixture.blankPizzaAndBlankSizeRequest();
-        var expectedMessage = PizzaOrderExceptionFixture.blankPizzaAndBlankPizzaSizeMessage();
+        var expectedErrors = PizzaOrderValidationErrorFixture.nullPizzaAndNullPizzaSizeErrors();
 
-        var exception = assertThrows(PizzaOrderException.class,
-                () -> PizzaOrderFactory.createFrom(invalidRequest));
-        assertEquals(expectedMessage, exception.getMessage());
+        var result = usecase.execute(invalidRequest);
+
+        assertThat(result.getValue()).isNull();
+        assertThat(result.getNotification().hasErrors()).isTrue();
+        assertThat(result.getNotification().getErrors()).containsAll(expectedErrors);
     }
 }

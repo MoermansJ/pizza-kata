@@ -2,14 +2,14 @@ package be.pizza.kata.pizzaorder.fixture;
 
 import java.util.List;
 
-public class PizzaOrderExceptionFixture {
-    private static final String PIZZA_MESSAGE = "Pizza cannot be ";
-    private static final String SIZE_MESSAGE = "Size cannot be ";
+public class PizzaOrderValidationErrorFixture {
+    private static final String PIZZA_PREFIX = "Pizza cannot be ";
+    private static final String SIZE_PREFIX = "Size cannot be ";
     private static final String NULL = "null";
 
     public static List<String> nullPizzaAndNullPizzaSizeErrors() {
-        var pizzaError = PIZZA_MESSAGE + NULL;
-        var sizeError = SIZE_MESSAGE + NULL;
+        var pizzaError = PIZZA_PREFIX + NULL;
+        var sizeError = SIZE_PREFIX + NULL;
 
         return List.of(pizzaError, sizeError);
     }
