@@ -29,7 +29,7 @@ class OrderPizzaUsecaseTest {
 
     @Test
     void givenValidPizzaOrderRequest_whenOrderingPizza_thenReturnsResultWithEmptyNotification() {
-        var request = PizzaOrderRequestFixture.mediumMargheritaRequest();
+        var request = PizzaOrderRequestFixture.mediumMargherita();
         var dummyOrderId = UUID.fromString("00000000-0000-0000-0000-000000000010");
         var dummySaved = PizzaOrderEntity.builder()
                 .id(dummyOrderId)
@@ -47,7 +47,7 @@ class OrderPizzaUsecaseTest {
 
     @Test
     void givenInvalidPizzaOrderRequest_whenOrderingPizza_thenReturnsFailedResultWithNotification() {
-        var invalidRequest = PizzaOrderRequestFixture.blankPizzaAndBlankSizeRequest();
+        var invalidRequest = PizzaOrderRequestFixture.emptyPizzaAndEmptyPizzaSize();
         var expectedErrors = PizzaOrderValidationErrorFixture.nullPizzaAndNullPizzaSizeErrors();
 
         var result = usecase.execute(invalidRequest);
