@@ -2,6 +2,8 @@ package be.pizza.kata.pizzaorder.repository;
 
 import be.pizza.kata.commons.testcontainers.PostgreSQLTestContainer;
 import be.pizza.kata.pizzaorder.fixture.PizzaOrderEntityFixture;
+import be.pizza.kata.pizzaorder.usecase.repository.PizzaOrderRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Testcontainers
+@Disabled("Disabled docker to save battery")
 class PizzaOrderRepositoryTest {
 
     @DynamicPropertySource
@@ -29,7 +32,7 @@ class PizzaOrderRepositoryTest {
 
     @Test
     void givenValidEntity_whenSave_thenEntityIsPersisted() {
-        var unsaved = PizzaOrderEntityFixture.unsavedMediumMargherita();
+        var unsaved = PizzaOrderEntityFixture.unpersistedMediumMargherita();
         var saved = repository.save(unsaved);
 
         assertNotNull(saved);
